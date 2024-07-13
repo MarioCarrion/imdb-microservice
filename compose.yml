@@ -1,0 +1,74 @@
+name: todo-api-microservice
+services:
+  prometheus:
+    image: prom/prometheus:v2.40.7
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docs/prometheus.yml:/etc/prometheus/prometheus.yml
+  jaeger:
+    image: jaegertracing/all-in-one:1.40.0
+    ports:
+      - 16686:16686
+      - 14268:14268
+  postgres:
+    image: postgres:16.2-bullseye
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: dbname
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+  postgres_setup:
+    image: ghcr.io/jackc/tern:v2.3.2
+    restart: no
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./db/migrations/:/db/
+    entrypoint: ["/tern", "migrate", "--migrations", "/db/", "--conn-string", "postgres://user:password@postgres:5432/dbname?sslmode=disable"]
+  vault:
+    image: vault:1.12.4
+    ports:
+      - 8300:8300
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8300
+      VAULT_DEV_ROOT_TOKEN_ID: myroot
+  elasticsearch:
+    image: elasticsearch:7.17.9
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      interval: 20s
+      timeout: 1s
+      retries: 5
+  elasticsearch_setup:
+    image: curlimages/curl:8.8.0
+    restart: no
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    entrypoint: ["curl", "-X", "PUT", "-H", "Content-Type: application/json", "http://elasticsearch:9200/tasks", "-d", "{\"mappings\":{\"properties\":{\"id\":{\"type\":\"keyword\"},\"description\":{\"type\":\"text\"}}}}"]
+  memcached:
+    image: memcached:1.6.19-alpine3.17
+    ports:
+      - 11211:11211
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 11211 || exit 1"]
+      interval: 20s
+      timeout: 1s
+      retries: 5

@@ -22,10 +22,10 @@ type Task struct {
 }
 
 // NewTask instantiates the Task repository.
-func NewTask(channel *amqp.Channel) (*Task, error) {
+func NewTask(channel *amqp.Channel) *Task {
 	return &Task{
 		ch: channel,
-	}, nil
+	}
 }
 
 // Created publishes a message indicating a task was created.

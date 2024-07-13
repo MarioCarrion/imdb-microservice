@@ -51,8 +51,6 @@ func renderErrorResponse(w http.ResponseWriter, r *http.Request, msg string, err
 		span.RecordError(err)
 	}
 
-	// XXX fmt.Printf("Error: %v\n", err)
-
 	render.Status(r, status)
 	render.JSON(w, r, &resp)
 }

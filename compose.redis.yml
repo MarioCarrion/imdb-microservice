@@ -1,0 +1,33 @@
+services:
+  rest-server-redis:
+    extends:
+      file: compose.common.yml
+      service: rest-server-common
+    build:
+      args:
+        TAG: redis
+    environment:
+      REDIS_HOST: redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+  elasticsearch-indexer-redis:
+    extends:
+      file: compose.common.yml
+      service: elasticsearch-indexer-common
+    build:
+      dockerfile: ./build/elasticsearch-indexer-redis/Dockerfile
+    environment:
+      REDIS_HOST: redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+  redis:
+    image: redis:7.0.9-alpine3.17
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
+      interval: 20s
+      timeout: 1s
+      retries: 5

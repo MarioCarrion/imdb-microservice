@@ -171,7 +171,7 @@ func (s *Server) ListenAndServe() error {
 
 	go func() {
 		for msg := range msgs {
-			s.logger.Info("Received message: %s" + msg.RoutingKey)
+			s.logger.Info("Received message: " + msg.RoutingKey)
 
 			var nack bool
 

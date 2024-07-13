@@ -1,3 +1,10 @@
+# XXX: Adding "run.build-tags" was required before v1.60.x, leaving it here in the meantime
+# Seems to be related to: https://github.com/golangci/golangci-lint/issues/4956
+# run:
+#   build-tags:
+#     - redis
+#     - rabbitmq
+#     - kafka
 linters:
   enable-all: true
   disable:
@@ -31,6 +38,8 @@ linters-settings:
       - stdlib
       #
       - 'go.opentelemetry.io/otel/trace.Span'
+      - 'github.com/MarioCarrion/todo-api/internal/service.TaskMessageBrokerRepository'
+      - 'github.com/MarioCarrion/todo-api/cmd/rest-server.MessageBus'
   varnamelen:
     max-distance: 10
     ignore-type-assert-ok: true
@@ -51,10 +60,9 @@ linters-settings:
       - internal.WrapErrorf(
     ignorePackageGlobs:
       - github.com/MarioCarrion/todo-api/*
-  gosec:
-    excludes:
-      - G601 # "Implicit memory aliasing in for loop." Fixed in Go 1.22
 issues:
+  exclude:
+    - "NewMessageHub redeclared in this block" # build tags: redis, rabbitmq or kafka
   exclude-rules:
     # All tests
     - path: _test\.go

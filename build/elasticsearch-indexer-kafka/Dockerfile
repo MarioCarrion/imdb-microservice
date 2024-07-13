@@ -4,18 +4,23 @@ WORKDIR /build/
 
 COPY . .
 
+ENV CGO_ENABLED=1 \
+    GOOS=linux
+
 RUN go mod download
 
-RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -ldflags "-extldflags -static" \
+RUN go build -a -installsuffix cgo -ldflags "-extldflags -static" \
       -o elasticsearch-indexer github.com/MarioCarrion/todo-api/cmd/elasticsearch-indexer-kafka
 
 #-
 
 FROM debian:bookworm-20241223-slim
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 RUN set -x && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    apt-get install -y \
       ca-certificates && \
       rm -rf /var/lib/apt/lists/*
 

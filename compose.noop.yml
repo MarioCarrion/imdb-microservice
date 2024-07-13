@@ -1,0 +1,8 @@
+services:
+  rest-server-noop:
+    extends:
+      file: compose.common.yml
+      service: rest-server-common
+    build:
+      args:
+        TAG: noop

@@ -1,5 +1,3 @@
-GO_VERSION=1.22.0
-
 .PHONY: all
 all: lint test
 
@@ -8,6 +6,7 @@ tidy:
 	go mod tidy
 	go mod -C internal/tools tidy
 
+.PHONY: tools
 tools:
 	go install -C internal/tools \
 		github.com/fdaines/spm-go \
@@ -20,12 +19,6 @@ tools:
 		goa.design/model/cmd/mdl \
 		goa.design/model/cmd/stz \
 		golang.org/x/vuln/cmd/govulncheck
-
-install:
-	go install golang.org/dl/go${GO_VERSION}@latest
-	go${GO_VERSION} download
-	mkdir -p bin
-	ln -sf `go env GOPATH`/bin/go${GO_VERSION} bin/go
 
 # Formatting
 
@@ -68,3 +61,12 @@ security:
 .PHONY: test
 test:
 	go test -shuffle=on -race -coverprofile=coverage.txt -covermode=atomic $$(go list ./... | grep -v /cmd/)
+
+# Build
+
+.PHONY: docker
+docker:
+	docker compose -f compose.yml -f compose.noop.yml build
+	docker compose -f compose.yml -f compose.redis.yml build
+	docker compose -f compose.yml -f compose.rabbitmq.yml build
+	docker compose -f compose.yml -f compose.kafka.yml build
