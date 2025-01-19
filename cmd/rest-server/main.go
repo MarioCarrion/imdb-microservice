@@ -28,9 +28,9 @@ import (
 	internaldomain "github.com/MarioCarrion/todo-api/internal"
 	"github.com/MarioCarrion/todo-api/internal/elasticsearch"
 	"github.com/MarioCarrion/todo-api/internal/envvar"
+	"github.com/MarioCarrion/todo-api/internal/kafka"
 	"github.com/MarioCarrion/todo-api/internal/memcached"
 	"github.com/MarioCarrion/todo-api/internal/postgresql"
-	"github.com/MarioCarrion/todo-api/internal/redis"
 	"github.com/MarioCarrion/todo-api/internal/rest"
 	"github.com/MarioCarrion/todo-api/internal/service"
 )
@@ -89,19 +89,9 @@ func run(env, address string) (<-chan error, error) {
 		return nil, internaldomain.WrapErrorf(err, internaldomain.ErrorCodeUnknown, "internal.NewMemcached")
 	}
 
-	// rmq, err := internal.NewRabbitMQ(conf)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("internal.NewRabbitMQ %w", err)
-	// }
-
-	// kafka, err := internal.NewKafkaProducer(conf)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("internal.NewKafka %w", err)
-	// }
-
-	rdb, err := internal.NewRedis(conf)
+	kafka, err := internal.NewKafkaProducer(conf)
 	if err != nil {
-		return nil, internaldomain.WrapErrorf(err, internaldomain.ErrorCodeUnknown, "internal.NewRedis")
+		return nil, internaldomain.WrapErrorf(err, internaldomain.ErrorCodeUnknown, "internal.NewKafkaProducer")
 	}
 
 	//-
@@ -130,11 +120,9 @@ func run(env, address string) (<-chan error, error) {
 		ElasticSearch: esClient,
 		Metrics:       promExporter,
 		Middlewares:   []func(next http.Handler) http.Handler{otelchi.Middleware("todo-api-server"), logging},
-		Redis:         rdb,
 		Logger:        logger,
 		Memcached:     memcached,
-		// RabbitMQ:      rmq,
-		// Kafka:         kafka,
+		Kafka:         kafka,
 	})
 	if err != nil {
 		return nil, internaldomain.WrapErrorf(err, internaldomain.ErrorCodeUnknown, "newServer")
@@ -158,8 +146,6 @@ func run(env, address string) (<-chan error, error) {
 			_ = logger.Sync()
 
 			pool.Close()
-			// rmq.Close()
-			rdb.Close()
 			stop()
 			cancel()
 			close(errC)
@@ -216,15 +202,7 @@ func newServer(conf serverConfig) (*http.Server, error) {
 	search := elasticsearch.NewTask(conf.ElasticSearch)
 	msearch := memcached.NewSearchableTask(conf.Memcached, search)
 
-	// XXX mclient := memcached.NewSearchableTask(conf.Memcached, search, conf.Logger)
-	// msgBroker, err := rabbitmq.NewTask(conf.RabbitMQ.Channel)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("rabbitmq.NewTask %w", err)
-	// }
-
-	// msgBroker := kafka.NewTask(conf.Kafka.Producer, conf.Kafka.Topic)
-
-	msgBroker := redis.NewTask(conf.Redis)
+	msgBroker := kafka.NewTask(conf.Kafka.Producer, conf.Kafka.Topic)
 
 	svc := service.NewTask(conf.Logger, mrepo, msearch, msgBroker)
 

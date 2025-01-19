@@ -118,26 +118,21 @@ In no particular order:
 * [2017: Jaana Dogan's: Style guideline for Go packages](https://rakyll.org/style-packages/)
 * [2018: Kat Zien - How Do You Structure Your Go Apps](https://www.youtube.com/watch?v=oL6JBUk6tj0)
 
-## Docker Containers
+## Running project locally using Docker Compose
 
-Please notice in order to run this project locally you need to run a few programs in advance, if you use Docker please refer to the concrete instructions in [`docs/`](docs/) for more details.
+Originally added as part of [Building Microservices In Go: Containerization with Docker](https://youtu.be/u_ayzie9pAQ), `docker compose` has evolved and with it the way to run everything locally. Make sure you are running a recent version of Docker Compose. The configuration in this repository and the instructions below are known to work:
 
-There's also a [docker-compose.yml](docker-compose.yml), covered in [Building Microservices In Go: Containerization with Docker](https://youtu.be/u_ayzie9pAQ), however like I mentioned in the video you have to execute `docker-compose` in multiple steps.
+* Engine: **27.4.0**, and
+* Compose: **v2.31.0-desktop.2**
 
-Notice that because of the way RabbitMQ and Kafka are being used they are sort of competing with each other, so at the moment we either have to enable Kafka and disable RabbitMQ or the other way around in both the code and the `docker-compose.yml` file, in either case there are Dockerfiles and services defined that cover building and running them.
+Use the `docker compose` normal instructions to `build` or `run`, for example:
 
-The following instructions are confirmed to work with docker compose **v2.24.5-desktop.1**.
+```
+docker compose build
+docker compose up
+```
 
-* Run `docker-compose up`, if you're using `rabbitmq` or `kafka` you may see the _rest-server_ and _elasticsearch-indexer_ services fail because those services take too long to start, in that case use any of the following instructions to manually start those services after the dependent server is ready:
-    * If you're planning to use RabbitMQ, run `docker-compose up rest-server elasticsearch-indexer-rabbitmq`.
-    * If you're planning to use Kafka, run `docker-compose up rest-server elasticsearch-indexer-kafka`.
-* For building the service images you can use:
-    * `rest-server` image: `docker-compose build rest-server`.
-    * `elasticsearch-indexer-rabbitmq` image: `docker-compose build elasticsearch-indexer-rabbitmq`.
-    * `elasticsearch-indexer-kafka` image: `docker-compose build elasticsearch-indexer-kafka`.
-    * `elasticsearch-indexer-redis` image: `docker-compose build elasticsearch-indexer-redis`.
-* Run `docker-compose run rest-server tern migrate --migrations "/api/migrations/" --conn-string "postgres://user:password@postgres:5432/dbname?sslmode=disable"` to have everything working correctly.
-* Finally interact with the API using Swagger UI: http://127.0.0.1:9234/static/swagger-ui/
+Once you `up` all the containers you can access the Swagger UI at http://127.0.0.1:9234/static/swagger-ui/ .
 
 ## Diagrams
 

@@ -145,7 +145,7 @@ func (s *Server) ListenAndServe() error {
 
 	go func() {
 		for msg := range ch {
-			s.logger.Info("Received message: %s" + msg.Channel)
+			s.logger.Info("Received message: " + msg.Channel)
 
 			// XXX: Instrumentation to be added in a future episode
 
@@ -163,6 +163,8 @@ func (s *Server) ListenAndServe() error {
 				if err := s.task.Index(context.Background(), task); err != nil {
 					s.logger.Info("Couldn't index task", zap.Error(err))
 				}
+
+				s.logger.Info("Record saved")
 			case "tasks.event.deleted":
 				var id string
 
@@ -175,6 +177,8 @@ func (s *Server) ListenAndServe() error {
 				if err := s.task.Delete(context.Background(), id); err != nil {
 					s.logger.Info("Couldn't delete task", zap.Error(err))
 				}
+
+				s.logger.Info("Record deleted")
 			}
 		}
 

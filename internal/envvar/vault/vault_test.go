@@ -153,7 +153,7 @@ func newVault(tb testing.TB) *vaultClient {
 
 	resource, err := pool.RunWithOptions(&dockertest.RunOptions{
 		Repository: "vault",
-		Tag:        "1.6.2",
+		Tag:        "1.12.4",
 		Env: []string{
 			"VAULT_DEV_ROOT_TOKEN_ID=" + token,
 			"VAULT_DEV_LISTEN_ADDRESS=" + address,

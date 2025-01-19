@@ -13,7 +13,7 @@ docker run \
   elasticsearch:7.17.8
 ```
 
-Add mapping for sorting results **before creating new records**
+Add mapping for sorting results **before creating new records**:
 
 ```
 curl -X PUT -H 'Content-Type: application/json' "http://localhost:9200/tasks" -d '
@@ -30,3 +30,5 @@ curl -X PUT -H 'Content-Type: application/json' "http://localhost:9200/tasks" -d
   }
 }'
 ```
+
+This configuration is set automatically when using `docker compose up`, as part of the [`compose.yml`](../compose.yml) file.
