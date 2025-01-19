@@ -1,42 +1,23 @@
 name: CI
 on: push
 jobs:
-  lint:
-    strategy:
-      matrix:
-        go-version: [1.23.x]
-        platform: [ubuntu-latest]
-    runs-on: ${{ matrix.platform }}
+  all:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: ${{ matrix.go-version }}
+          go-version: 1.23.x
           cache: true
           cache-dependency-path: |
             **/go.sum
             internal/tool/go.sum
       - name: Lint
         run: make lint
-  test:
-    strategy:
-      matrix:
-        go-version: [1.23.x]
-        platform: [ubuntu-latest]
-    runs-on: ${{ matrix.platform }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Install Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ matrix.go-version }}
-          cache: true
-          cache-dependency-path: |
-            **/go.sum
-            internal/tool/go.sum
+      - name: Make Docker images
+        run: make docker
       - name: Test
         run: make test
       - name: Upload coverage reports to Codecov

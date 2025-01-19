@@ -7,9 +7,8 @@ COPY . .
 ENV CGO_ENABLED=1 \
     GOOS=linux
 
-RUN go mod download
-
-RUN go build -a -installsuffix cgo -ldflags "-extldflags -static" \
+RUN go mod download && \
+    go build -a -installsuffix cgo -ldflags "-extldflags -static" \
       -o elasticsearch-indexer github.com/MarioCarrion/todo-api/cmd/elasticsearch-indexer-kafka
 
 #-
@@ -20,7 +19,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN set -x && \
     apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
       ca-certificates && \
       rm -rf /var/lib/apt/lists/*
 

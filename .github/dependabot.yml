@@ -2,18 +2,14 @@ version: 2
 updates:
   # Go
   - package-ecosystem: "gomod"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "gomod"
-    directory: "/internal/tools/"
+    directories:
+      - "/"
+      - "/internal/tools/"
     schedule:
       interval: "weekly"
   # Docker
   - package-ecosystem: "docker"
-    directories:
-      - "/build/elasticsearch-*/"
-      - "/build/rest-server/"
+    directory: "/dockerfiles/"
     schedule:
       interval: "weekly"
     groups:

@@ -3,7 +3,7 @@ services:
   rest-server:
     build:
       context: .
-      dockerfile: ./build/rest-server/Dockerfile
+      dockerfile: ./dockerfiles/rest-server.Dockerfile
     ports:
       - 9234:9234
     command: rest-server -env /api/env.example
@@ -95,7 +95,7 @@ services:
     entrypoint: ["curl", "-X", "PUT", "-H", "Content-Type: application/json", "http://elasticsearch:9200/tasks", "-d", "{\"mappings\":{\"properties\":{\"id\":{\"type\":\"keyword\"},\"description\":{\"type\":\"text\"}}}}"]
   elasticsearch-indexer-kafka:
     build:
-      dockerfile: ./build/elasticsearch-indexer-kafka/Dockerfile
+      dockerfile: ./dockerfiles/elasticsearch-indexer-kafka.Dockerfile
     command: elasticsearch-indexer -env /api/env.example
     environment:
       ELASTICSEARCH_URL: http://elasticsearch:9200
