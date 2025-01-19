@@ -27,8 +27,8 @@ type TaskSearchRepository interface {
 	Search(ctx context.Context, args internal.SearchParams) (internal.SearchResults, error)
 }
 
-// TaskMessageBrokerRepository defines the datastore handling persisting Searchable Task records.
-type TaskMessageBrokerRepository interface {
+// TaskMessageBrokerPublisher defines the datastore used to publish Searchable Task records.
+type TaskMessageBrokerPublisher interface {
 	Created(ctx context.Context, task internal.Task) error
 	Deleted(ctx context.Context, id string) error
 	Updated(ctx context.Context, task internal.Task) error
@@ -38,12 +38,12 @@ type TaskMessageBrokerRepository interface {
 type Task struct {
 	repo      TaskRepository
 	search    TaskSearchRepository
-	msgBroker TaskMessageBrokerRepository
+	msgBroker TaskMessageBrokerPublisher
 	cb        *circuitbreaker.CircuitBreaker
 }
 
 // NewTask ...
-func NewTask(logger *zap.Logger, repo TaskRepository, search TaskSearchRepository, msgBroker TaskMessageBrokerRepository) *Task {
+func NewTask(logger *zap.Logger, repo TaskRepository, search TaskSearchRepository, msgBroker TaskMessageBrokerPublisher) *Task {
 	return &Task{
 		repo:      repo,
 		search:    search,

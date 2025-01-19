@@ -125,11 +125,17 @@ Originally added as part of [Building Microservices In Go: Containerization with
 * Engine: **27.4.0**, and
 * Compose: **v2.31.0-desktop.2**
 
-Use the `docker compose` normal instructions to `build` or `run`, for example:
+The `docker compose` instructions are executed in the form of:
 
 ```
-docker compose build
-docker compose up
+docker compose -f compose.yml -f compose.kafka.yml <command>
+```
+
+For example
+
+```
+docker compose -f compose.yml -f compose.kafka.yml build
+docker compose -f compose.yml -f compose.kafka.yml up
 ```
 
 Once you `up` all the containers you can access the Swagger UI at http://127.0.0.1:9234/static/swagger-ui/ .

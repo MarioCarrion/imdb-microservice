@@ -19,7 +19,6 @@ import (
 	esv7 "github.com/elastic/go-elasticsearch/v7"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
-	rv8 "github.com/go-redis/redis/v8"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/riandyrn/otelchi"
 	"go.uber.org/zap"
@@ -28,7 +27,6 @@ import (
 	internaldomain "github.com/MarioCarrion/todo-api/internal"
 	"github.com/MarioCarrion/todo-api/internal/elasticsearch"
 	"github.com/MarioCarrion/todo-api/internal/envvar"
-	"github.com/MarioCarrion/todo-api/internal/kafka"
 	"github.com/MarioCarrion/todo-api/internal/memcached"
 	"github.com/MarioCarrion/todo-api/internal/postgresql"
 	"github.com/MarioCarrion/todo-api/internal/rest"
@@ -37,6 +35,12 @@ import (
 
 //go:embed static
 var content embed.FS
+
+// MessageBrokerPublisher represents the type that indicates the different Message Brokers supported.
+type MessageBrokerPublisher interface {
+	Publisher() service.TaskMessageBrokerPublisher
+	Close() error
+}
 
 func main() {
 	var env, address string
@@ -89,9 +93,9 @@ func run(env, address string) (<-chan error, error) {
 		return nil, internaldomain.WrapErrorf(err, internaldomain.ErrorCodeUnknown, "internal.NewMemcached")
 	}
 
-	kafka, err := internal.NewKafkaProducer(conf)
+	msgBroker, err := NewMessageBrokerPublisher(conf)
 	if err != nil {
-		return nil, internaldomain.WrapErrorf(err, internaldomain.ErrorCodeUnknown, "internal.NewKafkaProducer")
+		return nil, internaldomain.WrapErrorf(err, internaldomain.ErrorCodeUnknown, "NewMessageBroker")
 	}
 
 	//-
@@ -122,7 +126,7 @@ func run(env, address string) (<-chan error, error) {
 		Middlewares:   []func(next http.Handler) http.Handler{otelchi.Middleware("todo-api-server"), logging},
 		Logger:        logger,
 		Memcached:     memcached,
-		Kafka:         kafka,
+		MessageBroker: msgBroker,
 	})
 	if err != nil {
 		return nil, internaldomain.WrapErrorf(err, internaldomain.ErrorCodeUnknown, "newServer")
@@ -146,6 +150,9 @@ func run(env, address string) (<-chan error, error) {
 			_ = logger.Sync()
 
 			pool.Close()
+			srv.Close()
+			_ = msgBroker.Close()
+
 			stop()
 			cancel()
 			close(errC)
@@ -177,13 +184,11 @@ type serverConfig struct {
 	Address       string
 	DB            *pgxpool.Pool
 	ElasticSearch *esv7.Client
-	Kafka         *internal.KafkaProducer
-	RabbitMQ      *internal.RabbitMQ
-	Redis         *rv8.Client
 	Memcached     *memcache.Client
 	Metrics       http.Handler
 	Middlewares   []func(next http.Handler) http.Handler
 	Logger        *zap.Logger
+	MessageBroker MessageBrokerPublisher
 }
 
 func newServer(conf serverConfig) (*http.Server, error) {
@@ -202,9 +207,7 @@ func newServer(conf serverConfig) (*http.Server, error) {
 	search := elasticsearch.NewTask(conf.ElasticSearch)
 	msearch := memcached.NewSearchableTask(conf.Memcached, search)
 
-	msgBroker := kafka.NewTask(conf.Kafka.Producer, conf.Kafka.Topic)
-
-	svc := service.NewTask(conf.Logger, mrepo, msearch, msgBroker)
+	svc := service.NewTask(conf.Logger, mrepo, msearch, conf.MessageBroker.Publisher())
 
 	rest.RegisterOpenAPI(router)
 	rest.NewTaskHandler(svc).Register(router)

@@ -7,6 +7,7 @@ import (
 	"github.com/MarioCarrion/todo-api/internal/envvar"
 )
 
+// KafkaConsumer is the producer implementation of Kafka.
 type KafkaProducer struct {
 	Producer *kafka.Producer
 	Topic    string
@@ -34,6 +35,7 @@ func NewKafkaProducer(conf *envvar.Configuration) (*KafkaProducer, error) {
 	}, nil
 }
 
+// KafkaConsumer is the consumer implementation of Kafka.
 type KafkaConsumer struct {
 	Consumer *kafka.Consumer
 }

@@ -15,7 +15,7 @@ import (
 
 const otelName = "github.com/MarioCarrion/todo-api/internal/kafka"
 
-// Task represents the repository used for publishing Task records.
+// Task represents the Message Broker publisher used to publish Task records.
 type Task struct {
 	producer  *kafka.Producer
 	topicName string
@@ -26,7 +26,7 @@ type event struct {
 	Value internal.Task
 }
 
-// NewTask instantiates the Task repository.
+// NewTask instantiates the Task message broker publisher.
 func NewTask(producer *kafka.Producer, topicName string) *Task {
 	return &Task{
 		topicName: topicName,

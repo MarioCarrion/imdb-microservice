@@ -1,0 +1,42 @@
+services:
+  rest-server-common:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/rest-server.Dockerfile
+    ports:
+      - 9234:9234
+    command: rest-server -env /api/env.example
+    environment:
+      DATABASE_HOST: postgres
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+      MEMCACHED_HOST: memcached:11211
+      VAULT_ADDRESS: http://vault:8300
+    depends_on:
+      postgres:
+        condition: service_healthy
+      vault:
+        condition: service_started
+      prometheus:
+        condition: service_started
+      jaeger:
+        condition: service_started
+      elasticsearch:
+        condition: service_healthy
+      memcached:
+        condition: service_healthy
+  elasticsearch-indexer-common:
+    build:
+      context: .
+    command: elasticsearch-indexer -env /api/env.example
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+      VAULT_ADDRESS: http://vault:8300
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      jaeger:
+        condition: service_started
+      vault:
+        condition: service_started
