@@ -1,4 +1,4 @@
-FROM golang:1.23.4-bookworm AS builder
+FROM golang:1.23.5-bookworm AS builder
 
 WORKDIR /build/
 
@@ -14,7 +14,7 @@ RUN CGO_ENABLED=1 GOOS=linux go install -a -installsuffix cgo -ldflags "-extldfl
 
 #-
 
-FROM debian:bookworm-20241223-slim
+FROM debian:bookworm-20250113-slim
 
 RUN set -x && \
     apt-get update && \
