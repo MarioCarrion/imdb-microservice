@@ -51,10 +51,9 @@ linters-settings:
       - internal.WrapErrorf(
     ignorePackageGlobs:
       - github.com/MarioCarrion/todo-api/*
-  gosec:
-    excludes:
-      - G601 # "Implicit memory aliasing in for loop." Fixed in Go 1.22
 issues:
+  exclude:
+    - "NewMessageBrokerPublisher redeclared in this block" # build tags: `redis`, `rabbitmq` or `kafka`
   exclude-rules:
     # All tests
     - path: _test\.go

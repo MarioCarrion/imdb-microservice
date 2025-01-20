@@ -125,17 +125,32 @@ Originally added as part of [Building Microservices In Go: Containerization with
 * Engine: **27.4.0**, and
 * Compose: **v2.31.0-desktop.2**
 
+This project takes advantage of [Go's build constrains](https://pkg.go.dev/go/build) and [Docker's arguments](https://docs.docker.com/reference/dockerfile/#arg) to build and run the [rest-server](cmd/rest-server) using any of the following types of message broker:
+
+* RabbitMQ
+* Kafka
+
 The `docker compose` instructions are executed in the form of:
 
 ```
-docker compose -f compose.yml -f compose.kafka.yml <command>
+docker compose -f compose.yml -f compose.<type>.yml <command>
 ```
 
-For example
+Where:
+
+* `<type>`: Indicates what message broker to use. Currently there are two supported values: `rabbitmq` and `kafka`; those effectively match the compose filename itself.
+* `<command>`: Indicates the docker compose command to use.
+
+For example to build images using RabbitMQ as the message broker you would do:
 
 ```
-docker compose -f compose.yml -f compose.kafka.yml build
-docker compose -f compose.yml -f compose.kafka.yml up
+docker compose -f compose.yml -f compose.rabbitmq.yml build
+```
+
+Then to start the containers you would do:
+
+```
+docker compose -f compose.yml -f compose.rabbitmq.yml up
 ```
 
 Once you `up` all the containers you can access the Swagger UI at http://127.0.0.1:9234/static/swagger-ui/ .

@@ -66,4 +66,5 @@ test:
 # Build
 .PHONY: docker
 docker:
-	docker compose -f compose.yml build
+	docker compose -f compose.yml -f compose.kafka.yml build
+	docker compose -f compose.yml -f compose.rabbitmq.yml build

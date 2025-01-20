@@ -1,3 +1,5 @@
+//go:build !rabbitmq
+
 package main
 
 import (
