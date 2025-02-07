@@ -8,7 +8,7 @@ import (
 
 	"github.com/bradfitz/gomemcache/memcache"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
 // SearchableTask ...

@@ -1,4 +1,4 @@
-module github.com/MarioCarrion/todo-api/internal/tools
+module github.com/MarioCarrion/todo-api-microservice-example/internal/tools
 
 go 1.23.0
 

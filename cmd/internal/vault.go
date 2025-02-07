@@ -3,8 +3,8 @@ package internal
 import (
 	"os"
 
-	"github.com/MarioCarrion/todo-api/internal"
-	"github.com/MarioCarrion/todo-api/internal/envvar/vault"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar/vault"
 )
 
 // NewVaultProvider instantiates the Vault client using configuration defined in environment variables.

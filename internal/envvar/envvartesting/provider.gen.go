@@ -4,7 +4,7 @@ package envvartesting
 import (
 	"sync"
 
-	"github.com/MarioCarrion/todo-api/internal/envvar"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar"
 )
 
 type FakeProvider struct {

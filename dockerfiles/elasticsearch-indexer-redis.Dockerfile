@@ -9,7 +9,7 @@ ENV CGO_ENABLED=1 \
 
 RUN go mod download && \
     go build -a -installsuffix cgo -ldflags "-extldflags -static" \
-      -o elasticsearch-indexer github.com/MarioCarrion/todo-api/cmd/elasticsearch-indexer-redis
+      -o elasticsearch-indexer github.com/MarioCarrion/todo-api-microservice-example/cmd/elasticsearch-indexer-redis
 
 #-
 

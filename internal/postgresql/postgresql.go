@@ -10,13 +10,13 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/MarioCarrion/todo-api/internal"
-	"github.com/MarioCarrion/todo-api/internal/postgresql/db"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/postgresql/db"
 )
 
 //go:generate sqlc generate
 
-const otelName = "github.com/MarioCarrion/todo-api/internal/postgresql"
+const otelName = "github.com/MarioCarrion/todo-api-microservice-example/internal/postgresql"
 
 func convertPriority(priority db.Priority) (internal.Priority, error) {
 	switch priority {

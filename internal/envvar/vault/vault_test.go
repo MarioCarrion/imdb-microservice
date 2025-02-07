@@ -10,7 +10,7 @@ import (
 	"github.com/ory/dockertest/v3"
 	"github.com/ory/dockertest/v3/docker"
 
-	"github.com/MarioCarrion/todo-api/internal/envvar/vault"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar/vault"
 )
 
 type vaultClient struct {

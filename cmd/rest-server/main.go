@@ -23,14 +23,14 @@ import (
 	"github.com/riandyrn/otelchi"
 	"go.uber.org/zap"
 
-	"github.com/MarioCarrion/todo-api/cmd/internal"
-	internaldomain "github.com/MarioCarrion/todo-api/internal"
-	"github.com/MarioCarrion/todo-api/internal/elasticsearch"
-	"github.com/MarioCarrion/todo-api/internal/envvar"
-	"github.com/MarioCarrion/todo-api/internal/memcached"
-	"github.com/MarioCarrion/todo-api/internal/postgresql"
-	"github.com/MarioCarrion/todo-api/internal/rest"
-	"github.com/MarioCarrion/todo-api/internal/service"
+	"github.com/MarioCarrion/todo-api-microservice-example/cmd/internal"
+	internaldomain "github.com/MarioCarrion/todo-api-microservice-example/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/elasticsearch"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/memcached"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/postgresql"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/rest"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/service"
 )
 
 //go:embed static

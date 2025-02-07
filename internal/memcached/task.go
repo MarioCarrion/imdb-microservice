@@ -7,7 +7,7 @@ import (
 	"github.com/bradfitz/gomemcache/memcache"
 	"go.uber.org/zap"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
 type Task struct {

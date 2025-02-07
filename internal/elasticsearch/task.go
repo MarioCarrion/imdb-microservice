@@ -13,10 +13,10 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
-const otelName = "github.com/MarioCarrion/todo-api/internal/elasticsearch"
+const otelName = "github.com/MarioCarrion/todo-api-microservice-example/internal/elasticsearch"
 
 // Task represents the repository used for interacting with Task records.
 type Task struct {

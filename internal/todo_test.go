@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
 func TestPriority_Validate(t *testing.T) {

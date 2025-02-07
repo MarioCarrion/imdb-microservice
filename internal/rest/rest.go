@@ -8,10 +8,10 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"go.opentelemetry.io/otel"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
-const otelName = "github.com/MarioCarrion/todo-api/internal/rest"
+const otelName = "github.com/MarioCarrion/todo-api-microservice-example/internal/rest"
 
 // ErrorResponse represents a response containing an error message.
 type ErrorResponse struct {

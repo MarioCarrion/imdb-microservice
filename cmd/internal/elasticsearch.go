@@ -3,8 +3,8 @@ package internal
 import (
 	esv7 "github.com/elastic/go-elasticsearch/v7"
 
-	"github.com/MarioCarrion/todo-api/internal"
-	"github.com/MarioCarrion/todo-api/internal/envvar"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar"
 )
 
 // NewElasticSearch instantiates the ElasticSearch client using configuration defined in environment variables.

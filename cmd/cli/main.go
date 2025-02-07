@@ -17,7 +17,7 @@ import (
 	"go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
 
-	"github.com/MarioCarrion/todo-api/pkg/openapi3"
+	"github.com/MarioCarrion/todo-api-microservice-example/pkg/openapi3"
 )
 
 func main() {

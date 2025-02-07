@@ -3,12 +3,12 @@ package internal
 import (
 	"github.com/streadway/amqp"
 
-	"github.com/MarioCarrion/todo-api/internal"
-	"github.com/MarioCarrion/todo-api/internal/envvar"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar"
 )
 
-// RabbitMQ ...
-type RabbitMQ struct {
+type // RabbitMQ ...
+RabbitMQ struct {
 	Connection *amqp.Connection
 	Channel    *amqp.Channel
 }

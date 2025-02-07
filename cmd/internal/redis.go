@@ -6,8 +6,8 @@ import (
 
 	"github.com/go-redis/redis/v8"
 
-	"github.com/MarioCarrion/todo-api/internal"
-	"github.com/MarioCarrion/todo-api/internal/envvar"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar"
 )
 
 // NewRedis instantiates the Redis client using configuration defined in environment variables.

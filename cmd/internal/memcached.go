@@ -5,8 +5,8 @@ import (
 
 	"github.com/bradfitz/gomemcache/memcache"
 
-	"github.com/MarioCarrion/todo-api/internal"
-	"github.com/MarioCarrion/todo-api/internal/envvar"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar"
 )
 
 func NewMemcached(conf *envvar.Configuration) (*memcache.Client, error) {

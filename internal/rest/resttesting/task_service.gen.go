@@ -5,8 +5,8 @@ import (
 	"context"
 	"sync"
 
-	"github.com/MarioCarrion/todo-api/internal"
-	"github.com/MarioCarrion/todo-api/internal/rest"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/rest"
 )
 
 type FakeTaskService struct {

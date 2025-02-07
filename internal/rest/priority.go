@@ -3,7 +3,7 @@ package rest
 import (
 	"encoding/json"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
 // Priority indicates how important a Task is.

@@ -10,10 +10,10 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
-const otelName = "github.com/MarioCarrion/todo-api/internal/redis"
+const otelName = "github.com/MarioCarrion/todo-api-microservice-example/internal/redis"
 
 // Task represents the repository used for publishing Task records.
 type Task struct {

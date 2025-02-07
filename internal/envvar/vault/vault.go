@@ -6,7 +6,7 @@ import (
 
 	"github.com/hashicorp/vault/api"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
 // Provider ...

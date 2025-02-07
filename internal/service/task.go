@@ -9,10 +9,10 @@ import (
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
-const otelName = "github.com/MarioCarrion/todo-api/internal/service"
+const otelName = "github.com/MarioCarrion/todo-api-microservice-example/internal/service"
 
 // TaskRepository defines the datastore handling persisting Task records.
 type TaskRepository interface {

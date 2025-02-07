@@ -10,7 +10,7 @@ import (
 
 	"github.com/ghodss/yaml"
 
-	"github.com/MarioCarrion/todo-api/internal/rest"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/rest"
 )
 
 func main() {

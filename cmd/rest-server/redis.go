@@ -5,11 +5,11 @@ package main
 import (
 	"github.com/go-redis/redis/v8"
 
-	cmdinternal "github.com/MarioCarrion/todo-api/cmd/internal"
-	"github.com/MarioCarrion/todo-api/internal"
-	"github.com/MarioCarrion/todo-api/internal/envvar"
-	internalredis "github.com/MarioCarrion/todo-api/internal/redis"
-	"github.com/MarioCarrion/todo-api/internal/service"
+	cmdinternal "github.com/MarioCarrion/todo-api-microservice-example/cmd/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar"
+	internalredis "github.com/MarioCarrion/todo-api-microservice-example/internal/redis"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/service"
 )
 
 // RedisMessageBroker represents Redis as a Message Broker.

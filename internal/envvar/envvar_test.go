@@ -6,8 +6,8 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/MarioCarrion/todo-api/internal/envvar"
-	"github.com/MarioCarrion/todo-api/internal/envvar/envvartesting"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar/envvartesting"
 )
 
 func TestConfiguration_Get(t *testing.T) {

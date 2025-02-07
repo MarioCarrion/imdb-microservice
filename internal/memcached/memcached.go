@@ -11,10 +11,10 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
-const otelName = "github.com/MarioCarrion/todo-api/internal/memcached"
+const otelName = "github.com/MarioCarrion/todo-api-microservice-example/internal/memcached"
 
 // XXX: "delete" and "set" intentionally ignore errors, a better approach
 // would be to implement an unexported "client" type defining all the three

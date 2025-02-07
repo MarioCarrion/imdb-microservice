@@ -3,11 +3,11 @@
 package main
 
 import (
-	cmdinternal "github.com/MarioCarrion/todo-api/cmd/internal"
-	"github.com/MarioCarrion/todo-api/internal"
-	"github.com/MarioCarrion/todo-api/internal/envvar"
-	"github.com/MarioCarrion/todo-api/internal/kafka"
-	"github.com/MarioCarrion/todo-api/internal/service"
+	cmdinternal "github.com/MarioCarrion/todo-api-microservice-example/cmd/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/envvar"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/kafka"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal/service"
 )
 
 // KafkaMessageBroker represents Kafka as a Message Broker.

@@ -3,7 +3,7 @@ package rest
 import (
 	"time"
 
-	"github.com/MarioCarrion/todo-api/internal"
+	"github.com/MarioCarrion/todo-api-microservice-example/internal"
 )
 
 // Dates indicates a point in time where a task starts or completes, dates are not enforced on Tasks.
